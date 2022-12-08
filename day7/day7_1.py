@@ -25,7 +25,9 @@ class Tree:
             elif x.value == dirname:
                 return x
 
-        return self.find_dir(dirname, start=x)
+        for x in start.children:
+            if x.n_type == "dir":
+                return self.find_dir(dirname, start=x)
 
     def find_file(self, fname, start=""):
         if not start: start = self.top
@@ -81,4 +83,4 @@ directory.add_child("d", d_file)
 directory.add_child("d", d2_file)
 directory.add_child("d", k_file)
 
-print(directory.dir_size(start=e_dir))
+print(directory.dir_size())
