@@ -17,30 +17,28 @@ class Tree:
         
         if start.value == dirname and start.n_type == "dir":
             return start
+    
         for x in start.children:
-            print(x.value, x.n_type)
-            if x.n_type == "file":
-                continue
             
-            if x.value == dirname:
+            if x.n_type == "file":
+                pass
+            elif x.value == dirname:
                 return x
-            else:
-                return self.find_dir(dirname, start=x)
+
+        return self.find_dir(dirname, start=x)
 
     def find_file(self, fname, start=""):
         if not start: start = self.top
         for x in start.children:
             if x.n_type == "dir":
-                continue
-
-            if x.value == fname:
+                pass
+            elif x.value == fname:
                 return x
-            else:
-                return find_file(fname, start=x)
+            
+        return find_file(fname, start=x)
 
-    def add_child(self, dirname, child):
-        directory = self.find_dir(dirname)
-        print(directory, dirname)
+    def add_child(self, dname, child):
+        directory = self.find_dir(dname)
         directory.children.append(child)
 
 class Node:
@@ -55,7 +53,6 @@ with open("day7.txt", "r") as f:
     instructs = f.readlines()
 
 directory = Tree()
-print(directory.find_dir("/"))
 a_dir = Node("a", "dir", 0)
 e_dir = Node("e", "dir", 0)
 i_file = Node("i", "file", 584)
@@ -78,8 +75,10 @@ directory.add_child("a", e_dir)
 directory.add_child("a", f_file)
 directory.add_child("a", g_file)
 directory.add_child("a", h_file)
+directory.add_child("e", i_file)
 directory.add_child("d", j_file)
 directory.add_child("d", d_file)
 directory.add_child("d", d2_file)
 directory.add_child("d", k_file)
 
+print(directory.dir_size(start=e_dir))
