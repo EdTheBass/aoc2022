@@ -60,6 +60,7 @@ with open("day7.txt", "r") as f:
     top = Tree()
     curr_dir = top.top
     dir_list = []
+    name_list = []
     for _ in instructs:
         i = _[:-1]
         if i[0] == "$":
@@ -75,6 +76,7 @@ with open("day7.txt", "r") as f:
                     top.add_child("", child, dir_obj=curr_dir)
                     curr_dir = child
                     dir_list.append(child)
+                    name_list.append(directory)
 
         else:
             size = i[:i.index(" ")]
@@ -86,11 +88,13 @@ with open("day7.txt", "r") as f:
                 child = Node(name, "dir", 0)
                 top.add_child("", child, dir_obj=curr_dir)
                 dir_list.append(child)
+                name_list.append(directory)
 
-    t = 0
+    smallest = 70000000
     for d in dir_list:
         s = top.dir_size(start=d)
-        if s <= 100000:
-            t += s
+        if s < smallest and s >= 1035571:
+            smallest = s
 
-    print(t)
+    print(smallest)
+    
